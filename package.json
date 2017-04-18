@@ -1,0 +1,21 @@
+{
+  "name": "pong",
+  "version": "0.0.1",
+  "description": "A pong game written in HTML5 canvas and vanilla JS",
+  "main": "pong.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thomaslawton91/Pong.git"
+  },
+  "author": "Thomas Lawton",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thomaslawton91/Pong/issues"
+  },
+  "homepage": "https://github.com/thomaslawton91/Pong#readme"
+}
