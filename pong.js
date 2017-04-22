@@ -6,20 +6,15 @@ var height = 450;
 canvas.width = width;
 canvas.height = height;
 var ctx = canvas.getContext('2d');
+var player = new Player();
+var computer = new Computer();
+var ball = new Ball(292.5, 217.5, 15, 15);
+console.log(computer, player, ball);
 var keysDown = {};
 
-window.onload = function(){
-  document.body.appendChild(canvas);
-  table();
-  render();
-  window.addEventListener('keydown', function(event){
-    keysDown[event.keyCode] = true;
-  });
-  window.addEventListener('keyup', function(event){
-    delete keysDown[event.keyCode];
-  });
-  animate(step);
-  console.log(player.update());
+var update = function() {
+  player.update();
+  ball.update(player.paddle, computer.paddle);
 };
 
 var step = function(){
@@ -28,12 +23,9 @@ var step = function(){
   animate(step);
 };
 
-var update = function() {
-  player.update();
-  ball.update(player.paddle, computer.paddle);
-};
-
 var render = function() {
+  ctx.fillStyle = "black"
+  ctx.fillRect(0, 0, 600, 450);
   player.render();
   computer.render();
   ball.render();
@@ -166,7 +158,16 @@ Ball.prototype.update = function(paddle1, paddle2){
   }
 };
 
-var player = new Player();
-var computer = new Computer();
-var ball = new Ball(292.5, 217.5, 15, 15);
-console.log(computer, player, ball);
+window.onload = function(){
+  document.body.appendChild(canvas);
+  table();
+  render();
+  window.addEventListener('keydown', function(event){
+    keysDown[event.keyCode] = true;
+  });
+  window.addEventListener('keyup', function(event){
+    delete keysDown[event.keyCode];
+  });
+  animate(step);
+  console.log(player.update());
+};
