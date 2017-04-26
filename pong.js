@@ -1,5 +1,5 @@
 var animate = window.requestAnimationFrame || 
-              function(callback) { window.setTimeout(callback, 1000/60) };
+              function(callback) { window.setTimeout(callback, 1000/60);};
 var canvas = document.createElement('canvas');
 var width = 600;
 var height = 450;
@@ -8,7 +8,10 @@ canvas.height = height;
 var ctx = canvas.getContext('2d');
 var player = new Player();
 var computer = new Computer();
-var ball = new Ball(292.5, 217.5, 15, 15);
+var speeds = [-3, 3];
+var randSpeedX = speeds[Math.floor(Math.random() * 2|0)];
+var randSpeedY = speeds[Math.floor(Math.random() * 2|0)];
+var ball = new Ball(292.5, 217.5, 15, 15, randSpeedX, randSpeedY);
 console.log(computer, player, ball);
 var keysDown = {};
 
@@ -24,8 +27,9 @@ var step = function(){
 };
 
 var render = function() {
-  ctx.fillStyle = "black"
+  ctx.fillStyle = "black";
   ctx.fillRect(0, 0, 600, 450);
+  table();
   player.render();
   computer.render();
   ball.render();
@@ -106,61 +110,58 @@ Computer.prototype.render = function() {
   this.paddle.render();
 };
 
-function Ball(x, y, width, height){
+function Ball(x, y, width, height, speedX, speedY){
   this.x = x;
   this.y = y;
   this.width = width;
   this.height = height;
-  this.xSpeed = 3;
-  this.ySpeed = 0;
+  this.x_speed = speedX;
+  this.y_speed = speedY;
 }
+
 
 Ball.prototype.render = function(){
   ctx.fillStyle = "white";
   ctx.fillRect(this.x, this.y, this.width, this.height);
 };
 
-Ball.prototype.update = function(paddle1, paddle2){
-  this.x += this.xSpeed;
-  this.y += this.ySpeed;
-  var topX = this.x - 5;
-  var topY = this.y - 5;
-  var bottomX = this.x + 5;
-  var bottomY = this.y + 5;
-
-  if(this.y - 5 < 0) {
-    this.y = 5;
-    this.ySpeed = -this.ySpeed;
-  } else if(this.y + 5 > 450){
-    this.y = 445;
-    this.ySpeed = -this.ySpeed;
+Ball.prototype.update = function(paddle1, paddle2) {
+  this.x += this.x_speed;
+  this.y += this.y_speed;
+  var leftX = this.x;
+  var leftY = this.y;
+  var rightX = this.x + this.width;
+  var rightY = this.y + this.height;
+  console.log(paddle2);
+  if(this.x < 0 || this.x > 600){
+    this.x_speed = -2;//speeds[Math.floor(Math.random() * 2|0)];
+    this.y_speed = 0;//speeds[Math.floor(Math.random() * 2|0)];
+    this.x = 292.5;
+    this.y = 217.5;
   }
 
-  if(this.x < 0 || this.x > 600) {
-    this.xSpeed = 3;
-    this.ySpeed = 0;
-    this.x = 300;
-    this.y = 200;
+  if(this.y < 0){
+    this.y = 1;
+    this.y_speed = -this.y_speed;
+  } else if(this.y > 435){
+    this.y_speed = -this.y_speed;
   }
 
-  if(topX > 300) {
-    if(topX < (paddle1.x + paddle1.width) && bottomX > paddle1.x && topY < (paddle1.y + paddle1.height) && bottomY > paddle1.y) {
-      this.ySpeed = -3;
-      this.xSpeed += (paddle1.xSpeed / 2);
-      this.y += this.ySpeed;
-    } 
-  } else {
-    if(topX < (paddle2.x + paddle2.width) && bottomX > paddle2.x && topY < (paddle2.y + paddle2.height) && bottomY > paddle2.y) {
-      this.ySpeed = 3;
-      this.xSPeed += (paddle2.xSpeed / 2);
-      this.y += this.ySpeed;
+  if(rightX > 450){
+    if(leftX < (paddle1.x + paddle1.width) && rightX > paddle1.x && leftY > paddle1.y && rightY < paddle1.y + paddle1.height){
+      this.x_speed = -this.x_speed;
+      this.y_speed = -this.y_speed;
+    }else{
+      if(leftX > paddle2.x && rightX < (paddle2.x + paddle2.width) && leftY > paddle2.y && rightY < (paddle2.y + paddle2.height)){
+        this.x_speed = -this.x_speed;
+        this.y_speed = -this.y_speed;
+      }
     }
   }
 };
 
 window.onload = function(){
   document.body.appendChild(canvas);
-  table();
   render();
   window.addEventListener('keydown', function(event){
     keysDown[event.keyCode] = true;
@@ -169,5 +170,4 @@ window.onload = function(){
     delete keysDown[event.keyCode];
   });
   animate(step);
-  console.log(player.update());
 };
