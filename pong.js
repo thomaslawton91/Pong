@@ -129,10 +129,9 @@ Ball.prototype.update = function(paddle1, paddle2) {
   this.x += this.x_speed;
   this.y += this.y_speed;
   var leftX = this.x;
-  var leftY = this.y;
+  var topY = this.y;
   var rightX = this.x + this.width;
-  var rightY = this.y + this.height;
-  console.log(paddle2);
+  var botY = this.y + this.height;
   if(this.x < 0 || this.x > 600){
     this.x_speed = -2;//speeds[Math.floor(Math.random() * 2|0)];
     this.y_speed = 0;//speeds[Math.floor(Math.random() * 2|0)];
@@ -147,15 +146,16 @@ Ball.prototype.update = function(paddle1, paddle2) {
     this.y_speed = -this.y_speed;
   }
 
-  if(rightX > 450){
-    if(leftX < (paddle1.x + paddle1.width) && rightX > paddle1.x && leftY > paddle1.y && rightY < paddle1.y + paddle1.height){
-      this.x_speed = -this.x_speed;
-      this.y_speed = -this.y_speed;
-    }else{
-      if(leftX > paddle2.x && rightX < (paddle2.x + paddle2.width) && leftY > paddle2.y && rightY < (paddle2.y + paddle2.height)){
+
+if(this.x > 300){
+  if(leftX < (paddle1.x + paddle1.width) && rightX > paddle1.x && topY > paddle1.y && botY < paddle1.y + paddle1.height){
         this.x_speed = -this.x_speed;
         this.y_speed = -this.y_speed;
-      }
+      } 
+} else if (this.x < 300) {
+    if (leftX > (paddle2.x + paddle2.width) &&  rightX < (paddle2.x + paddle2.width) && topY > paddle2.y && botY < paddle2.y + paddle2.height){
+      this.x_speed = -this.x_speed;
+      this.y_speed = -this.y_speed;
     }
   }
 };
