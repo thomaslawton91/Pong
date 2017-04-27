@@ -147,17 +147,17 @@ Ball.prototype.update = function(paddle1, paddle2) {
   }
 
 
-if(this.x > 300){
-  if(leftX < (paddle1.x + paddle1.width) && rightX > paddle1.x && topY > paddle1.y && botY < paddle1.y + paddle1.height){
+  if(this.x > 300){
+    if(leftX < (paddle1.x + paddle1.width) && rightX > paddle1.x && topY > paddle1.y && botY < paddle1.y + paddle1.height){
+          this.x_speed = -this.x_speed;
+          this.y_speed = -this.y_speed;
+        } 
+  } else if (this.x < 300) {
+      if (leftX < (paddle2.x + paddle2.width) &&  rightX > (paddle2.x + paddle2.width) && topY > paddle2.y && botY < paddle2.y + paddle2.height){
         this.x_speed = -this.x_speed;
         this.y_speed = -this.y_speed;
-      } 
-} else if (this.x < 300) {
-    if (leftX > (paddle2.x + paddle2.width) &&  rightX < (paddle2.x + paddle2.width) && topY > paddle2.y && botY < paddle2.y + paddle2.height){
-      this.x_speed = -this.x_speed;
-      this.y_speed = -this.y_speed;
+      }
     }
-  }
 };
 
 window.onload = function(){
