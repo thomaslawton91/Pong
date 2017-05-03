@@ -37,15 +37,25 @@ var render = function() {
 
 var table = function(){
   ctx.lineWidth = 20;
+  ctx.beginPath();
   ctx.moveTo(50, 0);
   ctx.lineTo(0, 0);
   ctx.lineTo(0, 50);
+  ctx.stroke();
+
+  ctx.beginPath();
   ctx.moveTo(550, 0);
   ctx.lineTo(600, 0);
   ctx.lineTo(600, 50);
+  ctx.stroke();
+
+  ctx.beginPath();
   ctx.moveTo(600, 400);
   ctx.lineTo(600, 450);
   ctx.lineTo(550, 450);
+  ctx.stroke();
+
+  ctx.beginPath();
   ctx.moveTo(50, 450);
   ctx.lineTo(0, 450);
   ctx.lineTo(0, 400);
@@ -109,6 +119,10 @@ function Computer() {
 Computer.prototype.render = function() {
   this.paddle.render();
 };
+
+//Computer.prototype.update() = function() {
+  
+//};
 
 function Ball(x, y, width, height, speedX, speedY){
   this.x = x;
