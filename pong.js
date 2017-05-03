@@ -17,6 +17,7 @@ var keysDown = {};
 
 var update = function() {
   player.update();
+  computer.update(ball);
   ball.update(player.paddle, computer.paddle);
 };
 
@@ -103,9 +104,9 @@ Player.prototype.update = function(){
   for(var key in keysDown){
     var value = Number(key);
     if(value == 38){
-      this.paddle.move(0, -4);
+      this.paddle.move(0, -2.5);
     }else if (value == 40){
-      this.paddle.move(0, 4);
+      this.paddle.move(0, 2.5);
     }else {
       this.paddle.move(0, 0);
     }
@@ -120,9 +121,16 @@ Computer.prototype.render = function() {
   this.paddle.render();
 };
 
-//Computer.prototype.update() = function() {
-  
-//};
+Computer.prototype.update = function(ball) {
+  var y_pos = ball.y;
+  var diff = -((this.paddle.y + (this.paddle.height / 2)) - y_pos);
+  if(diff < 0 && diff < -8){
+    diff = -2.5;
+  } else if(diff > 0 && diff > 8){
+    diff = 2.5;
+  }
+  this.paddle.move(0, diff);
+};
 
 function Ball(x, y, width, height, speedX, speedY){
   this.x = x;
@@ -147,8 +155,8 @@ Ball.prototype.update = function(paddle1, paddle2) {
   var rightX = this.x + this.width;
   var botY = this.y + this.height;
   if(this.x < 0 || this.x > 600){
-    this.x_speed = -2;//speeds[Math.floor(Math.random() * 2|0)];
-    this.y_speed = 0;//speeds[Math.floor(Math.random() * 2|0)];
+    this.x_speed = speeds[Math.floor(Math.random() * 2|0)];
+    this.y_speed = speeds[Math.floor(Math.random() * 2|0)];
     this.x = 292.5;
     this.y = 217.5;
   }
