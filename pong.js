@@ -14,6 +14,8 @@ var randSpeedY = speeds[Math.floor(Math.random() * 2|0)];
 var ball = new Ball(292.5, 217.5, 15, 15, randSpeedX, randSpeedY);
 console.log(computer, player, ball);
 var keysDown = {};
+var playerScore = 0;
+var computerScore = 0;
 
 var update = function() {
   player.update();
@@ -154,11 +156,18 @@ Ball.prototype.update = function(paddle1, paddle2) {
   var topY = this.y;
   var rightX = this.x + this.width;
   var botY = this.y + this.height;
-  if(this.x < 0 || this.x > 600){
+  if(this.x < 0){
     this.x_speed = speeds[Math.floor(Math.random() * 2|0)];
     this.y_speed = speeds[Math.floor(Math.random() * 2|0)];
     this.x = 292.5;
     this.y = 217.5;
+    playerScore += 1;
+  } else if (this.x > 600){
+    this.x_speed = speeds[Math.floor(Math.random() * 2|0)];
+    this.y_speed = speeds[Math.floor(Math.random() * 2|0)];
+    this.x = 292.5;
+    this.y = 217.5;
+    computerScore += 1;
   }
 
   if(this.y < 0){
