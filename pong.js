@@ -148,6 +148,7 @@ Ball.prototype.render = function(){
 
 var playerScore = 0;
 var computerScore = 0;
+var win = 11;
 
 Ball.prototype.update = function(paddle1, paddle2) {
   this.x += this.x_speed;
@@ -156,6 +157,17 @@ Ball.prototype.update = function(paddle1, paddle2) {
   var topY = this.y;
   var rightX = this.x + this.width;
   var botY = this.y + this.height;
+
+  if (playerScore == win){
+    document.getElementById('win').innerHTML = "You win!";
+    playerScore = 0;
+    computerScore = 0;
+  } else if (computerScore == win){
+    document.getElementById('win').innerHTML = "You lose!!";
+    playerScore = 0;
+    computerScore = 0;
+  }
+
   if(this.x <= 0){
     playerScore+=1;
     this.x_speed = speeds[Math.floor(Math.random() * 2|0)];
